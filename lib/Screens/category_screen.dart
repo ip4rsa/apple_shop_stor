@@ -6,6 +6,7 @@ import 'package:apple_shop/data/model/category.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
@@ -67,8 +68,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
             BlocBuilder<CategorysBloc, CategoryState>(
               builder: (context, state) {
                 if (state is CategoryLoadingState) {
-                  return const SliverToBoxAdapter(
-                    child: CircularProgressIndicator(),
+                  return SliverToBoxAdapter(
+                    child: Shimmer.fromColors(
+                      baseColor: const Color(0xFFEBEBEB),
+                      highlightColor: const Color(0xFFFFFFFF),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 1,
+                        height: MediaQuery.of(context).size.height / 1,
+                        color: const Color(0xFFFFFFFF),
+                      ),
+                    ),
                   );
                 }
                 if (state is CategoryResponseState) {

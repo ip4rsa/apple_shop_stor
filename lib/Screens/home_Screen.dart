@@ -4,12 +4,14 @@ import 'package:apple_shop/bloc/home/home_sate.dart';
 import 'package:apple_shop/constants/colors.dart';
 import 'package:apple_shop/data/model/Banner.dart';
 import 'package:apple_shop/data/model/category.dart';
+import 'package:apple_shop/data/model/product.dart';
 import 'package:apple_shop/data/repository/product_repository.dart';
 import 'package:apple_shop/widgets/category_items_chip.dart';
 import 'package:apple_shop/widgets/poster_Slider.dart';
 import 'package:apple_shop/widgets/product_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,75 +36,80 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, state) {
             return CustomScrollView(
               slivers: [
-                if (state is HomeLoadind) ...[
-                  const SliverPadding(padding: EdgeInsets.only(bottom: 10)),
-                  const SliverToBoxAdapter(
-                    child: Center(
-                      child: SizedBox(
-                        width: 25,
-                        height: 25,
-                        child: CircularProgressIndicator(),
-                      ),
+                if (state is HomeLoadind) ...{
+                  SliverToBoxAdapter(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // CircularProgressIndicator(
+                        //   strokeWidth: 1.2,
+                        //   color: blue,
+                        // ),
+                        Shimmer.fromColors(
+                          baseColor: const Color(0xFFEBEBEB),
+                          highlightColor: const Color(0xFFFFFFFF),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 1,
+                            height: MediaQuery.of(context).size.height / 1,
+                            color: const Color(0xFFFFFFFF),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-                const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
-                //----------------- get data bottm Test
-                SliverToBoxAdapter(
-                    child: ElevatedButton(
-                  onPressed: () async {
-                    var response = await ProductRepository().getProducts();
-                    response.fold((l) {
-                      print(l);
-                    }, (r) {
-                      r.forEach((element) {
-                        print(element.name);
-                      });
-                    });
-                  },
-                  child: Text('get data'),
-                )),
-                _getSearchBob(),
-                const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
-                if (state is HomeResponse) ...[
-                  state.banerList.fold((erroreMessage) {
-                    return SliverToBoxAdapter(
-                      child: Text(erroreMessage),
-                    );
-                  }, (listBanner) {
-                    const SliverPadding(padding: EdgeInsets.only(bottom: 25));
-                    return _getPOsters(listBanner);
-                  })
-                ],
-                const SliverPadding(padding: EdgeInsets.only(bottom: 25)),
-                const _getCategoryListTitle(),
-                if (state is HomeResponse) ...[
-                  state.categoryList.fold((erroreMessage) {
-                    return SliverToBoxAdapter(
-                      child: Text(erroreMessage),
-                    );
-                  }, (listCategorys) {
-                    return _getCategoryListItems(listCategorys);
-                  })
-                ],
-                const SliverPadding(padding: EdgeInsets.only(bottom: 25)),
-                const _bestSelerProdoctTitle(),
-                const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
-                // if (state is HomeResponse) ...[
-                //   state.productList.fold((erroreMessage) {
-                //     return SliverToBoxAdapter(
-                //       child: Text(erroreMessage),
-                //     );
-                //   }, (listProduct) {
-                //     return _getBestSelerProdoctsItems(listProduct);
-                //   })
-                // ],
-                _getBestSelerProdoctsItems(),
-                const SliverPadding(padding: EdgeInsets.only(bottom: 35)),
-                _getMostViewTitle(),
-                const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
-                _getMostViewProdoctItems(),
-                const SliverPadding(padding: EdgeInsets.only(bottom: 35)),
+                } else ...{
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
+                  const _getSearchBob(),
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
+                  if (state is HomeResponse) ...[
+                    state.banerList.fold((erroreMessage) {
+                      return SliverToBoxAdapter(
+                        child: Text(erroreMessage),
+                      );
+                    }, (listBanner) {
+                      const SliverPadding(padding: EdgeInsets.only(bottom: 25));
+                      return _getPOsters(listBanner);
+                    })
+                  ],
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 25)),
+                  const _getCategoryListTitle(),
+                  if (state is HomeResponse) ...[
+                    state.categoryList.fold((erroreMessage) {
+                      return SliverToBoxAdapter(
+                        child: Text(erroreMessage),
+                      );
+                    }, (listCategorys) {
+                      return _getCategoryListItems(listCategorys);
+                    })
+                  ],
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 25)),
+                  const _bestSelerProdoctTitle(),
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
+                  if (state is HomeResponse) ...[
+                    state.bestSelerProdoct.fold((erroreMessage) {
+                      return SliverToBoxAdapter(
+                        child: Text(erroreMessage),
+                      );
+                    }, (listProduct) {
+                      return _getBestSelerProdoctsItems(listProduct);
+                    })
+                  ],
+                  // _getBestSelerProdoctsItems(),
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 35)),
+                  _getMostViewTitle(),
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
+                  if (state is HomeResponse) ...[
+                    state.hotestProdoct.fold((erroreMessage) {
+                      return SliverToBoxAdapter(
+                        child: Text(erroreMessage),
+                      );
+                    }, (listHotestProdoct) {
+                      return _getMostViewProdoctItems(listHotestProdoct);
+                    }),
+                  ],
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 35)),
+                },
               ],
             );
           },
@@ -113,7 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _getMostViewProdoctItems extends StatelessWidget {
-  const _getMostViewProdoctItems({
+  List<Prodocts> prodoct;
+  _getMostViewProdoctItems(
+    this.prodoct, {
     super.key,
   });
 
@@ -123,12 +132,14 @@ class _getMostViewProdoctItems extends StatelessWidget {
       child: SizedBox(
         height: 215,
         child: ListView.builder(
-          itemCount: 10,
+          physics: const BouncingScrollPhysics(),
+          itemCount: prodoct.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return Padding(
-              padding: EdgeInsets.only(right: index == 0 ? 44 : 20),
-              child: Text(''),
+              padding: EdgeInsets.only(
+                  right: index == 0 ? 44 : 20, left: index == 2 ? 24 : 0),
+              child: productItems(prodoct[index]),
             );
           },
         ),
@@ -149,17 +160,6 @@ class _getMostViewTitle extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 44),
         child: Row(
           children: [
-            Image.asset('assets/images/ic_left_category.png', height: 20),
-            const SizedBox(width: 10),
-            Text(
-              'مشاهده همه',
-              style: TextStyle(
-                color: blue,
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const Spacer(),
             Text(
               'پر بازدیدترین ها',
               style: TextStyle(
@@ -168,6 +168,17 @@ class _getMostViewTitle extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
+            const Spacer(),
+            Text(
+              'مشاهده همه',
+              style: TextStyle(
+                color: blue,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Image.asset('assets/images/ic_left_category.png', height: 20),
           ],
         ),
       ),
@@ -176,8 +187,9 @@ class _getMostViewTitle extends StatelessWidget {
 }
 
 class _getBestSelerProdoctsItems extends StatelessWidget {
-  // List<Prodocts> productsList;
-  const _getBestSelerProdoctsItems({
+  List<Prodocts> productsList;
+  _getBestSelerProdoctsItems(
+    this.productsList, {
     super.key,
   });
 
@@ -187,13 +199,14 @@ class _getBestSelerProdoctsItems extends StatelessWidget {
       child: SizedBox(
         height: 215,
         child: ListView.builder(
-          itemCount: 10,
+          physics: BouncingScrollPhysics(),
+          itemCount: productsList.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return Padding(
               padding: EdgeInsets.only(
-                  right: index == 0 ? 44 : 20, left: index == 9 ? 24 : 0),
-              child: productItems(),
+                  right: index == 0 ? 44 : 20, left: index == 2 ? 24 : 0),
+              child: productItems(productsList[index]),
             );
           },
         ),
@@ -253,6 +266,7 @@ class _getCategoryListItems extends StatelessWidget {
       child: SizedBox(
         height: 120,
         child: ListView.builder(
+          physics: BouncingScrollPhysics(),
           itemCount: categoryList.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {

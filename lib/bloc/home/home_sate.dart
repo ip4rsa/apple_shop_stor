@@ -13,5 +13,8 @@ class HomeResponse extends HomeState {
   Either<String, List<Banners>> banerList;
   Either<String, List<Categorys>> categoryList;
   Either<String, List<Prodocts>> productList;
-  HomeResponse(this.banerList, this.categoryList, this.productList);
+  Either<String, List<Prodocts>> hotestProdoct;
+  Either<String, List<Prodocts>> bestSelerProdoct;
+  HomeResponse(this.banerList, this.categoryList, this.productList,
+      this.bestSelerProdoct, this.hotestProdoct);
 }

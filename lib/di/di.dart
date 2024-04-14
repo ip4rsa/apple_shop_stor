@@ -2,9 +2,11 @@ import 'package:apple_shop/data/dataSource/authintication_source.dart';
 import 'package:apple_shop/data/dataSource/banner_dataSourse.dart';
 import 'package:apple_shop/data/dataSource/category_datasourse.dart';
 import 'package:apple_shop/data/dataSource/product_datasorse.dart';
+import 'package:apple_shop/data/dataSource/product_detiles_dataSource.dart';
 import 'package:apple_shop/data/repository/authintication_repository.dart';
 import 'package:apple_shop/data/repository/banner_repository.dart';
 import 'package:apple_shop/data/repository/category_repository.dart';
+import 'package:apple_shop/data/repository/product_detai_repository.dart';
 import 'package:apple_shop/data/repository/product_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -28,10 +30,14 @@ Future<void> getInit() async {
   locator.registerFactory<IcategoryDatasources>(() => CategoryDataSource());
   locator.registerFactory<IBannerDataSourse>(() => BannerRemotDataSourse());
   locator.registerFactory<IProductDataSourse>(() => ProductRemoteDaataSourse());
+  locator.registerFactory<IDetailProductDataSource>(
+      () => DetalProductDataSource());
 
   //repository
   locator.registerFactory<IauthRepository>(() => AutenticationRepository());
   locator.registerFactory<IcategoryRepository>(() => CategoryRepository());
   locator.registerFactory<IBannerRepository>(() => BannerRepository());
   locator.registerFactory<IProductRepository>(() => ProductRepository());
+  locator.registerFactory<IDtailProductRepository>(
+      () => DetailProductRepository());
 }
