@@ -1,3 +1,4 @@
+import 'package:apple_shop/Screens/product_detail_screen.dart';
 import 'package:apple_shop/bloc/products/product_event.dart';
 import 'package:apple_shop/bloc/products/product_state.dart';
 import 'package:apple_shop/data/repository/product_detai_repository.dart';
@@ -10,8 +11,9 @@ class ProductDetailsBloc
   ProductDetailsBloc() : super(ProductInitState()) {
     on<InitionalProductEvens>((event, emit) async {
       emit(ProductDetaisLoadingState());
-      var response = await _dtailProductRepository.getProductImage();
-      emit(ProductDetailsResponseState(response));
+      var productImage = await _dtailProductRepository.getProductImage();
+      var productVariant = await _dtailProductRepository.getProductVariant();
+      emit(ProductDetailsResponseState(productImage, productVariant));
     });
   }
 }

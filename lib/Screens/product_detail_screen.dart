@@ -1,12 +1,10 @@
 import 'dart:ui';
-
 import 'package:apple_shop/bloc/products/product_bloc.dart';
 import 'package:apple_shop/bloc/products/product_event.dart';
 import 'package:apple_shop/bloc/products/product_state.dart';
 import 'package:apple_shop/constants/colors.dart';
-import 'package:apple_shop/data/dataSource/product_datasorse.dart';
-import 'package:apple_shop/data/dataSource/product_detiles_dataSource.dart';
 import 'package:apple_shop/data/model/products_image.dart';
+import 'package:apple_shop/data/model/variant_type.dart';
 import 'package:apple_shop/data/repository/product_detai_repository.dart';
 import 'package:apple_shop/di/di.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
@@ -119,73 +117,28 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                   if (state is ProductDetailsResponseState) ...[
-                    state.getProductImage.fold((l) {
+                    state.getProductImage.fold((erroreMassage) {
                       return SliverToBoxAdapter(
-                        child: Text(l),
+                        child: Text(erroreMassage),
                       );
                     }, (productImageList) {
                       return _getGallerayWidget(productImageList);
                     })
                   ],
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 47),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          const Text(
-                            'انتخاب رنگ',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontFamily: 'SM',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: Container(
-                                  width: 26,
-                                  height: 26,
-                                  decoration: ShapeDecoration(
-                                    color: red,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8)),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: Container(
-                                  width: 26,
-                                  height: 26,
-                                  decoration: ShapeDecoration(
-                                    color: blue,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 26,
-                                height: 26,
-                                decoration: ShapeDecoration(
-                                  color: black,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  if (state is ProductDetailsResponseState) ...{
+                    state.getVariant.fold((erroreMassage) {
+                      return SliverToBoxAdapter(
+                        child: Text(erroreMassage),
+                      );
+                    }, (variantList) {
+                      for (var variant in variantList) {
+                        print(variant.variantTyoe.title);
+                      }
+                      return SliverToBoxAdapter(
+                        child: Text('data'),
+                      );
+                    }),
+                  },
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 47),
@@ -516,6 +469,78 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class getColorVarigent extends StatelessWidget {
+  VariantTyoe variantTyoe;
+  getColorVarigent(
+    this.variantTyoe, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 47),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              '',
+              // variantTyoe.type,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 12,
+                fontFamily: 'SM',
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Container(
+                    width: 26,
+                    height: 26,
+                    decoration: ShapeDecoration(
+                      color: red,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Container(
+                    width: 26,
+                    height: 26,
+                    decoration: ShapeDecoration(
+                      color: blue,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 26,
+                  height: 26,
+                  decoration: ShapeDecoration(
+                    color: black,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
