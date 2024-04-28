@@ -23,7 +23,7 @@ VariantTypeEnum getTypeEnum(String type) {
     case 'Storage':
       return VariantTypeEnum.storage;
     case 'Voltage':
-      return VariantTypeEnum.storage;
+      return VariantTypeEnum.voltage;
     default:
       return VariantTypeEnum.color;
   }

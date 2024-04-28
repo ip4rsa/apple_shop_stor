@@ -11,6 +11,6 @@ class ProductDetaisLoadingState extends ProductDetailsState {}
 
 class ProductDetailsResponseState extends ProductDetailsState {
   Either<String, List<ProductImage>> getProductImage;
-  Either<String, List<ProductVariant>> getVariant;
-  ProductDetailsResponseState(this.getProductImage, this.getVariant);
+  Either<String, List<ProductVariant>> getProductVariant;
+  ProductDetailsResponseState(this.getProductImage, this.getProductVariant);
 }

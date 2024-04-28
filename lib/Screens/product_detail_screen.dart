@@ -4,6 +4,7 @@ import 'package:apple_shop/bloc/products/product_event.dart';
 import 'package:apple_shop/bloc/products/product_state.dart';
 import 'package:apple_shop/constants/colors.dart';
 import 'package:apple_shop/data/model/products_image.dart';
+import 'package:apple_shop/data/model/variant.dart';
 import 'package:apple_shop/data/model/variant_type.dart';
 import 'package:apple_shop/data/repository/product_detai_repository.dart';
 import 'package:apple_shop/di/di.dart';
@@ -126,18 +127,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     })
                   ],
                   if (state is ProductDetailsResponseState) ...{
-                    state.getVariant.fold((erroreMassage) {
-                      return SliverToBoxAdapter(
-                        child: Text(erroreMassage),
-                      );
-                    }, (variantList) {
-                      for (var variant in variantList) {
-                        print(variant.variantTyoe.title);
-                      }
-                      return SliverToBoxAdapter(
-                        child: Text('data'),
-                      );
-                    }),
+                    state.getProductVariant.fold(
+                      (erroreMassage) {
+                        return SliverToBoxAdapter(
+                          child: Text(erroreMassage),
+                        );
+                      },
+                      (variantList) {
+                        for (var variants in variantList) {
+                          print(variants.variantType.title);
+                        }
+                        return SliverToBoxAdapter(
+                          child: Text('ssssss'),
+                        );
+                        // return Text('data');
+                      },
+                    ),
                   },
                   SliverToBoxAdapter(
                     child: Padding(
@@ -491,8 +496,7 @@ class getColorVarigent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              '',
-              // variantTyoe.type,
+              '${variantTyoe.title}',
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 12,

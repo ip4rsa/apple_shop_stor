@@ -71,17 +71,17 @@ class DetalProductDataSource extends IDetailProductDataSource {
 
   @override
   Future<List<ProductVariant>> getProductVariant() async {
-    var variantType = await getVariantType();
+    var variantTypeList = await getVariantType();
     var variantList = await getVariants();
 
     List<ProductVariant> productVariantList = [];
 
-    for (var variantType in variantType) {
-      var myVariantList = variantList
-          .where((element) => element.typeId == variantType.id)
+    for (var variantTypee in variantTypeList) {
+      var myVarintList = variantList
+          .where((element) => element.typeId == variantTypee.id)
           .toList();
 
-      productVariantList.add(ProductVariant(myVariantList, variantType));
+      productVariantList.add(ProductVariant(variantTypee, myVarintList));
     }
     return productVariantList;
   }

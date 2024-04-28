@@ -5,7 +5,6 @@ import 'package:apple_shop/constants/colors.dart';
 import 'package:apple_shop/data/model/Banner.dart';
 import 'package:apple_shop/data/model/category.dart';
 import 'package:apple_shop/data/model/product.dart';
-import 'package:apple_shop/data/repository/product_repository.dart';
 import 'package:apple_shop/widgets/category_items_chip.dart';
 import 'package:apple_shop/widgets/poster_Slider.dart';
 import 'package:apple_shop/widgets/product_items.dart';
