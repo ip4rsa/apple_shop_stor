@@ -18,7 +18,7 @@ class DetalProductDataSource extends IDetailProductDataSource {
   @override
   Future<List<ProductImage>> getProductImage() async {
     try {
-      Map<String, String> qParams = {'filter': 'product_id="at0y1gm0t65j62j"'};
+      Map<String, String> qParams = {'filter': 'product_id="5vvww65pv6nviw6"'};
       var response = await _dio.get('collections/gallery/records',
           queryParameters: qParams);
       return response.data['items']
@@ -55,7 +55,8 @@ class DetalProductDataSource extends IDetailProductDataSource {
   Future<List<Variant>> getVariants() async {
     Map<String, String> qParams = {'filter': 'product_id="at0y1gm0t65j62j"'};
     try {
-      var response = await _dio.get('collections/variants/records');
+      var response = await _dio.get('collections/variants/records',
+          queryParameters: qParams);
       return response.data['items']
           .map<Variant>((jsonObject) => Variant.fromJson(jsonObject))
           .toList();

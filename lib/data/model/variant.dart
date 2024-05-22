@@ -1,9 +1,13 @@
 class Variant {
   String? id;
+
   String? name;
+
   String? typeId;
+
   String? value;
-  String? priceChange;
+
+  int? priceChange;
 
   Variant(
     this.id,
@@ -17,9 +21,9 @@ class Variant {
     return Variant(
       jsonObject['id'],
       jsonObject['name'],
-      jsonObject['value'],
       jsonObject['price_change'],
       jsonObject['type_id'],
+      jsonObject['value'],
     );
   }
 }
